@@ -84,7 +84,7 @@ inductive ComEval : State → Com → State → Prop where
   | EIfTrue :
         b.eval σ = true →
         ComEval σ c₁ σ' →
-          ComEval σ (CIf b c1 c2) σ'
+          ComEval σ (CIf b c₁ c₂) σ'
   | EIfFalse :
         b.eval σ = false →
         ComEval σ c₂ σ' →
