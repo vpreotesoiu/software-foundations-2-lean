@@ -1,13 +1,13 @@
 import Lean
 import SoftwareFoundations2.Syntax.AST
 
-open Lean Elab Meta PrettyPrinter
+open Lean Elab Term Meta PrettyPrinter
 
 declare_syntax_cat aexp
 declare_syntax_cat bexp
 declare_syntax_cat com
 
-def identToString : Syntax → String := λ stx => stx.getId.toString
+def identToString : Syntax → String := fun stx => stx.getId.toString
 
 syntax num   : aexp
 syntax ident : aexp
@@ -15,7 +15,6 @@ syntax aexp " + " aexp : aexp
 syntax aexp " - " aexp : aexp
 syntax aexp " * " aexp : aexp
 syntax "(" aexp ")" : aexp
-syntax "⟨{" aexp "}⟩" : term
 
 syntax "btrue"  : bexp
 syntax "bfalse"  : bexp
@@ -35,6 +34,7 @@ syntax "if " bexp " then " com " else " com " endif" : com
 syntax "while " bexp " do " com " od" : com
 syntax "{ " com " }" : com
 syntax "{ " " }" : com
+syntax "↑"term : com
 
 partial def elabAExp : Syntax → MetaM Expr
   | `(aexp| $n:num)    => return mkApp (.const ``AExp.ANum []) (mkNatLit n.getNat)
@@ -65,7 +65,7 @@ partial def elabBExp : Syntax → MetaM Expr
   | `(bexp| ( $b ))         => elabBExp b
   | _                       => throwUnsupportedSyntax
 
-partial def elabCom : Syntax → MetaM Expr
+partial def elabCom : Syntax → TermElabM Expr
   | `(com| skip)                          =>
         return .const ``Com.CSkip []
   | `(com| $x:ident = $a)                 =>
@@ -80,10 +80,13 @@ partial def elabCom : Syntax → MetaM Expr
   | `(com| { $c })                        => elabCom c
   | `(com| { })                           =>
         return .const ``Com.CSkip []
+  | `(com| ↑$t:term)                       => do
+        let e ← elabTerm t (some (.const `Com []))
+        return e
   | _                                     => throwUnsupportedSyntax
 
-elab "⟨{" exp:aexp "}⟩" : term => elabAExp exp
-elab "⟨{" exp:bexp "}⟩" : term => elabBExp exp
+elab "arith⟨{" exp:aexp "}⟩" : term => elabAExp exp
+elab "bool⟨{" exp:bexp "}⟩" : term => elabBExp exp
 elab "⟨{" pgm:com "}⟩"  : term => elabCom pgm
 
 @[app_unexpander AExp.ANum]
