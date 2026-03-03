@@ -149,3 +149,18 @@ set_option warn.sorry false in
 theorem seq_assoc : ⟨{ {↑c₁ ; ↑c₂} ; ↑c₃ }⟩ ≃ ⟨{ ↑c₁ ; {↑c₂ ; ↑c₃} }⟩ := by
   -- FILL IN HERE (optional: PR will pass without it)
   sorry
+
+@[refl]
+theorem equiv_refl {c : Com} : c ≃ c := by
+  -- FILL IN HERE
+  sorry
+
+@[trans]
+theorem equiv_trans {c : Com} : c₁ ≃ c₂ → c₂ ≃ c₃ → c₂ ≃ c₃ := by
+  -- FILL IN HERE
+  sorry
+
+@[symm]
+theorem equiv_symm {c : Com} : c₁ ≃ c₂ → c₂ ≃ c₁ := by
+  -- FILL IN HERE
+  sorry
