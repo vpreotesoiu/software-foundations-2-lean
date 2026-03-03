@@ -164,3 +164,38 @@ theorem equiv_trans {c : Com} : c₁ ≃ c₂ → c₂ ≃ c₃ → c₂ ≃ c�
 theorem equiv_symm {c : Com} : c₁ ≃ c₂ → c₂ ≃ c₁ := by
   -- FILL IN HERE
   sorry
+
+theorem equiv_congr_asgn {a₁ a₂ : AExp} (h : a₁ ≃ a₂) :
+  ⟨{ ↑x = a₁ }⟩ ≃ ⟨{ ↑x = a₂ }⟩ := by
+  -- FILL IN HERE (optional: PR will pass without it)
+  sorry
+
+set_option warn.sorry false in
+theorem equiv_congr_seq (h : c₁ ≃ c₁') :
+  ⟨{ ↑c₁; ↑c₂ }⟩ ≃ ⟨{ ↑c₁'; ↑c₂ }⟩ := by
+  -- FILL IN HERE (optional: PR will pass without it)
+  sorry
+
+set_option warn.sorry false in
+theorem bequiv_congr_if (h : b ≃ b') :
+  ⟨{ if ↑b then ↑c₁ else ↑c₂ endif }⟩ ≃ ⟨{ if ↑b' then ↑c₁ else ↑c₂ endif }⟩ := by
+  -- FILL IN HERE (optional: PR will pass without it)
+  sorry
+
+set_option warn.sorry false in
+theorem equiv_congr_if (h₁ : c₁ ≃ c₁') (h₂ : c₂ ≃ c₂') :
+  ⟨{ if ↑b then ↑c₁ else ↑c₂ endif }⟩ ≃ ⟨{ if ↑b then ↑c₁' else ↑c₂' endif }⟩ := by
+  -- FILL IN HERE (optional: PR will pass without it)
+  sorry
+
+set_option warn.sorry false in
+theorem bequiv_congr_while (h : b ≃ b') :
+  ⟨{ while ↑b do ↑c od }⟩ ≃ ⟨{ while ↑b' do ↑c od }⟩ := by
+  -- FILL IN HERE (optional: PR will pass without it)
+  sorry
+
+set_option warn.sorry false in
+theorem equiv_congr_while {c c' : Com} (h : c ≃ c') :
+  ⟨{ while ↑b do ↑c od }⟩ ≃ ⟨{ while ↑b do ↑c' od }⟩ := by
+  -- FILL IN HERE (optional: PR will pass without it)
+  sorry
