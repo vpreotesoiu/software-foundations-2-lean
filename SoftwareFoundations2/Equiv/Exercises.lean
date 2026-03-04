@@ -132,11 +132,23 @@ theorem skip_right : ⟨{ ↑c; skip }⟩ ≃ ⟨{ ↑c }⟩ := by
     case mpr.a => exact h
     case mpr.a => apply ESkip
 
-
 theorem false_if (h : b ≃ bexp⟨{ bfalse }⟩) :
   ⟨{ if ↑b then ↑c₁ else ↑c₂ endif }⟩ ≃ ⟨{ ↑c₂ }⟩ := by
-  -- FILL IN HERE
-  sorry
+  intro σ σ'
+  apply Iff.intro
+  · intro h
+    cases h with
+    | EIfTrue habs _ =>
+        simp at h
+        specialize h σ
+        rw [h] at habs
+        contradiction
+    | EIfFalse _ habs => exact habs
+  · intro p
+    apply EIfFalse
+    rw [h]
+    rfl
+    exact p
 
 theorem swap_if_branches :
     ⟨{ if ↑b then ↑c₁ else ↑c₂ endif }⟩ ≃
