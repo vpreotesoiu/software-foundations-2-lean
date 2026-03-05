@@ -230,13 +230,17 @@ theorem assign_aequiv
 
 set_option warn.sorry false in
 theorem seq_assoc : ⟨{ {↑c₁ ; ↑c₂} ; ↑c₃ }⟩ ≃ ⟨{ ↑c₁ ; {↑c₂ ; ↑c₃} }⟩ := by
-  -- FILL IN HERE (optional: PR will pass without it)
   sorry
 
 @[refl]
 theorem equiv_refl : c ≃ c := by
   -- FILL IN HERE
-  sorry
+  intro h p
+  apply Iff.intro
+  · intro r
+    exact r
+  · intro r
+    exact r
 
 @[trans]
 theorem equiv_trans : c₁ ≃ c₂ → c₂ ≃ c₃ → c₁ ≃ c₃ := by
