@@ -284,18 +284,29 @@ theorem equiv_symm : c₁ ≃ c₂ → c₂ ≃ c₁ := by
     rw [h] at r
     exact r
 
-set_option warn.sorry false in
 theorem equiv_congr_asgn {a₁ a₂ : AExp} (h : a₁ ≃ a₂) :
-  ⟨{ ↑x = a₁ }⟩ ≃ ⟨{ ↑x = a₂ }⟩ := by
-  -- FILL IN HERE (optional: PR will pass without it)
+  ⟨{ ↑x = ↑a₁ }⟩ ≃ ⟨{ ↑x = ↑a₂ }⟩ := by
   simp
   intro p q
   apply Iff.intro
   · intro r
     cases r with
     | EAsgn q1 q2 =>
-
-  sorry
+        simp at h
+        specialize h p
+        rw [h] at q1
+        rw [q1] at q2
+        rw [q2]
+        apply EAsgn q1
+        rw [q1]
+  · intro r
+    cases r with
+    | EAsgn q1 q2 =>
+        simp at h
+        specialize h p
+        rw [← h] at q1
+        apply EAsgn q1
+        exact q2
 
 set_option warn.sorry false in
 theorem equiv_congr_seqL (h : c₁ ≃ c₁') :
