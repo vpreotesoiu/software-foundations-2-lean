@@ -310,7 +310,6 @@ theorem equiv_congr_asgn {a₁ a₂ : AExp} (h : a₁ ≃ a₂) :
 
 theorem equiv_congr_seqL (h : c₁ ≃ c₁') :
   ⟨{ ↑c₁; ↑c₂ }⟩ ≃ ⟨{ ↑c₁'; ↑c₂ }⟩ := by
-  -- FILL IN HERE (optional: PR will pass without it)
   intro p q
   apply Iff.intro
   · intro r
@@ -351,8 +350,32 @@ theorem equiv_congr_seqR (h : c₂ ≃ c₂') :
 set_option warn.sorry false in
 theorem bequiv_congr_if (h : b ≃ b') :
   ⟨{ if ↑b then ↑c₁ else ↑c₂ endif }⟩ ≃ ⟨{ if ↑b' then ↑c₁ else ↑c₂ endif }⟩ := by
-  -- FILL IN HERE (optional: PR will pass without it)
-  sorry
+  intro p q
+  apply Iff.intro
+  · intro r
+    cases r with
+    | EIfTrue q1 q2 =>
+        rw [h] at q1
+        apply EIfTrue
+        exact q1
+        exact q2
+    | EIfFalse q1 q2 =>
+        apply EIfFalse
+        rw [h] at q1
+        exact q1
+        exact q2
+  · intro r
+    cases r with
+    | EIfTrue q1 q2 =>
+        apply EIfTrue
+        rw [← h] at q1
+        exact q1
+        exact q2
+    | EIfFalse q1 q2 =>
+        apply EIfFalse
+        rw [← h] at q1
+        exact q1
+        exact q2
 
 set_option warn.sorry false in
 theorem equiv_congr_if (h₁ : c₁ ≃ c₁') (h₂ : c₂ ≃ c₂') :
