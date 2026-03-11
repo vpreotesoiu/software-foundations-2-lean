@@ -331,7 +331,22 @@ theorem equiv_congr_seqL (h : c₁ ≃ c₁') :
 set_option warn.sorry false in
 theorem equiv_congr_seqR (h : c₂ ≃ c₂') :
   ⟨{ ↑c₁; ↑c₂ }⟩ ≃ ⟨{ ↑c₁; ↑c₂' }⟩ := by
-  sorry
+  intro p q
+  apply Iff.intro
+  · intro r
+    cases r with
+    | ESeq q1 q2 =>
+        apply ESeq
+        apply q1
+        rw [h] at q2
+        exact q2
+  · intro r
+    cases r with
+    | ESeq q1 q2 =>
+        apply ESeq
+        apply q1
+        rw [← h] at q2
+        exact q2
 
 set_option warn.sorry false in
 theorem bequiv_congr_if (h : b ≃ b') :
